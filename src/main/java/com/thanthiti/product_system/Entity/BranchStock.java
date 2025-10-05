@@ -1,6 +1,9 @@
 package com.thanthiti.product_system.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -13,12 +16,17 @@ public class BranchStock extends BaseDate{
     private UUID branchStockId;
 
     @ManyToOne
-    @JoinColumn(name = "branch_id")
+    @JoinColumn(name = "branch_id", nullable = false)
+    @NotNull(message = "Branch is required")
     private Branch branch;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
+    @NotNull(message = "Product is required")
     private Product product;
 
-    private int quantity;
+    @Column(nullable = false)
+    @Builder.Default
+    @PositiveOrZero
+    private int quantity = 0;
 }
